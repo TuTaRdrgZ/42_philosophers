@@ -6,36 +6,51 @@
 #    By: bautrodr <bautrodr@student.42barcel>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/12/28 12:35:41 by bautrodr          #+#    #+#              #
-#    Updated: 2024/02/08 10:54:58 by bautrodr         ###   ########.fr        #
+#    Updated: 2024/02/08 14:54:40 by bautrodr         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = philo
+
+RESET = \033[0m
+BOLD = \033[1m
+RED = \033[91m
+GREEN = \033[92m
+YELLOW = \033[93m
+CYAN = \033[96m
+
 SRCS = main.c \
-	   utils.c \
-	   check_input.c \
-	   state.c \
-	   philos.c
+       utils.c \
+       check_input.c \
+       state.c \
+       philos.c
 
 OBJS = $(SRCS:.c=.o)
 
 CC = gcc
 
-CFLAGS = -Wall -Wextra -Werror -g
+CFLAGS = -Wall -Wextra -Werror
 
 all: $(NAME)
 
-.c.o:
-	$(CC) -c $< -o $@
+%.o:%.c philo.h
+	@printf "\033[0;33mGenerating philo objects... %-33.33s\r" $@
+	@$(CC) $(CFLAGS) -c $< -o $@
 
 $(NAME): $(OBJS) Makefile philo.h
-	$(CC) $(CFLAGS) $(OBJS) -o $(NAME)
+	@echo "\n"
+	@echo "$(YELLOW)Creating executable...$(RESET)"
+	@$(CC) $(CFLAGS) $(OBJS) -o $(NAME)
 
 clean:
-	rm -f $(OBJS)
+	@echo "$(YELLOW)$(BOLD)Cleaning object files...$(RESET)"
+	@rm -f $(OBJS)
+	@echo "$(RED)$(BOLD)Object files removed!$(RESET)"
 
 fclean: clean
-	rm -f $(NAME)
+	@echo "$(YELLOW)$(BOLD)Cleaning trash...$(RESET)"
+	@rm -f $(NAME)
+	@echo "$(RED)$(BOLD)Trash removed!$(RESET)"
 
 re: fclean all
 
