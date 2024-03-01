@@ -6,7 +6,7 @@
 /*   By: bautrodr <bautrodr@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 10:51:44 by bautrodr          #+#    #+#             */
-/*   Updated: 2024/02/08 11:11:02 by bautrodr         ###   ########.fr       */
+/*   Updated: 2024/03/01 09:34:04 by bautrodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void		eat(t_philo *philo)
 	pthread_mutex_unlock(&philo->next->fork);
 	pthread_mutex_unlock(&philo->fork);
 	philo->state = SLEEPING;
-	if (philo->eat_times == philo->args->time_must_eat - 1)
+	if (philo->eat_times == philo->args->max_meals - 1)
 		philo->args->total_meal += 1;
 	philo->eat_times += 1;
 }

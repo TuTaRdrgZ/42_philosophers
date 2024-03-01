@@ -6,7 +6,7 @@
 /*   By: bautrodr <bautrodr@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/28 11:38:05 by bautrodr          #+#    #+#             */
-/*   Updated: 2024/02/08 10:59:27 by bautrodr         ###   ########.fr       */
+/*   Updated: 2024/03/01 09:32:57 by bautrodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ typedef struct		s_args
 	int				time_to_die;
 	int				time_to_eat;
 	int				time_to_sleep;
-	int				time_must_eat;
+	int				max_meals;
 	int				death_flag;
 	int				total_meal;
 	long			initial_time;
