@@ -51,7 +51,7 @@ int	init_data(t_args *args, char **argv, int argc)
 	pthread_mutex_init(args->printer, NULL);
 	if (argc == 6)
 		args->max_meals = ft_atoi(argv[5]);
-	if (args->philos_nb <= 1 || args->time_to_die < 0 ||
+	if (args->philos_nb < 1 || args->time_to_die < 0 ||
 		args->time_to_eat < 0 || args->time_to_sleep < 0)
 		return (EXIT_FAILURE);
 	if (args->max_meals <= 0)

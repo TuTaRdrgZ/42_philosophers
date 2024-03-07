@@ -6,7 +6,7 @@
 #    By: bautrodr <bautrodr@student.42barcel>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/12/28 12:35:41 by bautrodr          #+#    #+#              #
-#    Updated: 2024/02/08 14:54:40 by bautrodr         ###   ########.fr        #
+#    Updated: 2024/03/07 12:16:43 by bautrodr         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,7 +29,7 @@ OBJS = $(SRCS:.c=.o)
 
 CC = gcc
 
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror -g
 
 all: $(NAME)
 

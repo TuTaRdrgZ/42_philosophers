@@ -33,20 +33,20 @@ void		free_philos(t_philo *head, t_args args)
 
 t_philo		*init_link(int id, t_args *arg)
 {
-	t_philo *link;
+	t_philo *philo;
 
-	link = malloc(sizeof(t_philo));
-	if (!link)
+	philo = malloc(sizeof(t_philo));
+	if (!philo)
 		return (NULL);
-	link->id = id;
-	link->alive = 1;
-	link->state = THINKING;
-	link->args = arg;
-	link->first_meal = 0;
-	link->eat_times = 0;
-	link->next = link;
-	pthread_mutex_init(&link->fork, NULL);
-	return (link);
+	philo->id = id;
+	philo->alive = 1;
+	philo->state = THINKING;
+	philo->args = arg;
+	philo->first_meal = 0;
+	philo->eat_times = 0;
+	philo->next = philo;
+	pthread_mutex_init(&philo->fork, NULL);
+	return (philo);
 }
 
 t_philo		*init_philos(t_args *args)

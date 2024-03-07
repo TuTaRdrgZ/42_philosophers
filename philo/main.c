@@ -61,7 +61,7 @@ int main(int argc, char **argv)
 	t_args   args;
 	pthread_t	supervisor_pid;
 
-	supervisor_pid = NULL;
+	supervisor_pid = 0;
 	if (argc == 5 || argc == 6)
 	{
 		if (!init_data(&args, argv, argc))
@@ -71,6 +71,7 @@ int main(int argc, char **argv)
 			init_routine(&args, head);
 			pthread_join(supervisor_pid, NULL);
 			free_philos(head, args);
+            retrurn (0);
 		}
 		return (1);
 	}
