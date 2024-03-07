@@ -6,7 +6,7 @@
 /*   By: bautrodr <bautrodr@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/28 12:49:51 by bautrodr          #+#    #+#             */
-/*   Updated: 2024/03/01 09:33:34 by bautrodr         ###   ########.fr       */
+/*   Updated: 2024/03/07 11:43:19 by bautrodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static int	check_args(t_args *args, char **argv, int argc)
 		if (is_digit_str(argv[i]) == -1)
 		{
 			print_error("Only positive numbers are accepted\n");
-			return (1);
+			return (EXIT_FAILURE);
 		}
 		i++;
 	}
@@ -38,7 +38,7 @@ static int	check_args(t_args *args, char **argv, int argc)
 	args->total_meal = 0;
 	args->max_meals = 1;
 	args->death_flag = 0;
-	return (0);
+	return (EXIT_SUCCESS);
 }
 
 int	init_data(t_args *args, char **argv, int argc)

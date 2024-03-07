@@ -6,7 +6,7 @@
 /*   By: bautrodr <bautrodr@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/28 12:09:25 by bautrodr          #+#    #+#             */
-/*   Updated: 2024/02/08 10:59:58 by bautrodr         ###   ########.fr       */
+/*   Updated: 2024/03/07 11:45:44 by bautrodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,12 +64,15 @@ int main(int argc, char **argv)
 	supervisor_pid = NULL;
 	if (argc == 5 || argc == 6)
 	{
-		init_data(&args, argv, argc);
-		head = init_philos(&args);
-		pthread_create(&supervisor_pid, NULL, supervisor, head);
-		init_routine(&args, head);
-		pthread_join(supervisor_pid, NULL);
-		free_philos(head, args);
+		if (!init_data(&args, argv, argc))
+		{
+			head = init_philos(&args);
+			pthread_create(&supervisor_pid, NULL, supervisor, head);
+			init_routine(&args, head);
+			pthread_join(supervisor_pid, NULL);
+			free_philos(head, args);
+		}
+		return (1);
 	}
 	else
 	{
