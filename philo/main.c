@@ -6,7 +6,7 @@
 /*   By: bautrodr <bautrodr@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/28 12:09:25 by bautrodr          #+#    #+#             */
-/*   Updated: 2024/03/07 11:45:44 by bautrodr         ###   ########.fr       */
+/*   Updated: 2024/03/07 14:36:22 by bautrodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ int main(int argc, char **argv)
 			init_routine(&args, head);
 			pthread_join(supervisor_pid, NULL);
 			free_philos(head, args);
-            retrurn (0);
+            return (0);
 		}
 		return (1);
 	}
