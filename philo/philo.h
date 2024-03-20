@@ -6,7 +6,7 @@
 /*   By: bautrodr <bautrodr@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/28 11:38:05 by bautrodr          #+#    #+#             */
-/*   Updated: 2024/03/01 09:32:57 by bautrodr         ###   ########.fr       */
+/*   Updated: 2024/03/20 09:02:09 by bautrodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ typedef struct		s_philo
 	struct s_philo	*next;
 }					t_philo;
 
+void	*supervisor(void *p_data);
 void	print_error(char *str);
 void	print_state(char *action, useconds_t delay, t_philo *philo);
 void	*routine(void *p_data);
