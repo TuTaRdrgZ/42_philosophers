@@ -6,7 +6,7 @@
 #    By: bautrodr <bautrodr@student.42barcel>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/12/28 12:35:41 by bautrodr          #+#    #+#              #
-#    Updated: 2024/03/21 10:21:33 by bautrodr         ###   ########.fr        #
+#    Updated: 2024/03/21 10:24:09 by bautrodr         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,11 +31,11 @@ OBJS = $(SRCS:.c=.o)
 
 CC = gcc
 
-CFLAGS = -Wall -Wextra -Werror -g -fsanitize=address
+CFLAGS = -Wall -Wextra -Werror #-g -fsanitize=address
 
 all: $(NAME)
 
-%.o:%.c philo.h
+%.o:%.c philo.h Makefile
 	@printf "\033[0;33mGenerating philo objects... %-33.33s\r" $@
 	@$(CC) $(CFLAGS) -c $< -o $@
 
