@@ -6,14 +6,14 @@
 /*   By: bautrodr <bautrodr@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/28 12:49:51 by bautrodr          #+#    #+#             */
-/*   Updated: 2024/03/07 11:43:19 by bautrodr         ###   ########.fr       */
+/*   Updated: 2024/03/21 10:11:12 by bautrodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
 static int	check_args(t_args *args, char **argv, int argc)
-{	
+{
 	int	i;
 
 	i = 1;
@@ -51,8 +51,8 @@ int	init_data(t_args *args, char **argv, int argc)
 	pthread_mutex_init(args->printer, NULL);
 	if (argc == 6)
 		args->max_meals = ft_atoi(argv[5]);
-	if (args->philos_nb < 1 || args->time_to_die < 0 ||
-		args->time_to_eat < 0 || args->time_to_sleep < 0)
+	if (args->philos_nb < 1 || args->time_to_die < 0 || args->time_to_eat < 0
+		|| args->time_to_sleep < 0)
 		return (EXIT_FAILURE);
 	if (args->max_meals <= 0)
 		return (EXIT_FAILURE);

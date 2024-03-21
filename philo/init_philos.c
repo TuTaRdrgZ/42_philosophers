@@ -6,13 +6,13 @@
 /*   By: bautrodr <bautrodr@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 10:07:12 by bautrodr          #+#    #+#             */
-/*   Updated: 2024/03/20 09:16:12 by bautrodr         ###   ########.fr       */
+/*   Updated: 2024/03/21 10:11:19 by bautrodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-void		free_philos(t_philo *head, t_args args)
+void	free_philos(t_philo *head, t_args args)
 {
 	int		i;
 	t_philo	*tmp;
@@ -31,9 +31,9 @@ void		free_philos(t_philo *head, t_args args)
 	ft_memdel(head);
 }
 
-t_philo		*init_link(int id, t_args *arg)
+t_philo	*init_link(int id, t_args *arg)
 {
-	t_philo *philo;
+	t_philo	*philo;
 
 	philo = malloc(sizeof(t_philo));
 	if (!philo)
@@ -49,10 +49,10 @@ t_philo		*init_link(int id, t_args *arg)
 	return (philo);
 }
 
-t_philo		*init_philos(t_args *args)
+t_philo	*init_philos(t_args *args)
 {
 	t_philo	*philo;
-	t_philo *new_philo;
+	t_philo	*new_philo;
 	t_philo	*head;
 	int		i;
 

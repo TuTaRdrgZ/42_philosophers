@@ -6,13 +6,13 @@
 /*   By: bautrodr <bautrodr@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 10:51:44 by bautrodr          #+#    #+#             */
-/*   Updated: 2024/03/20 09:25:04 by bautrodr         ###   ########.fr       */
+/*   Updated: 2024/03/21 10:11:49 by bautrodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-void		print_state(char *action, useconds_t delay, t_philo *philo)
+void	print_state(char *action, useconds_t delay, t_philo *philo)
 {
 	long	timestamp;
 
@@ -27,7 +27,7 @@ void		print_state(char *action, useconds_t delay, t_philo *philo)
 		ft_msleep(delay);
 }
 
-void		eat(t_philo *philo)
+void	eat(t_philo *philo)
 {
 	philo->first_meal = 1;
 	pthread_mutex_lock(&philo->fork);
@@ -45,11 +45,11 @@ void		eat(t_philo *philo)
 	philo->eat_times += 1;
 }
 
-void		*routine(void *p_data)
+void	*routine(void *p_data)
 {
-	t_philo		*philo;
+	t_philo	*philo;
 
-	philo = (t_philo*)p_data;
+	philo = (t_philo *)p_data;
 	if (philo->id % 2 == 0)
 		ft_msleep(1 * philo->args->time_to_eat);
 	philo->last_meal = get_time_value();

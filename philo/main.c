@@ -6,7 +6,7 @@
 /*   By: bautrodr <bautrodr@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/28 12:09:25 by bautrodr          #+#    #+#             */
-/*   Updated: 2024/03/20 09:29:57 by bautrodr         ###   ########.fr       */
+/*   Updated: 2024/03/21 10:11:24 by bautrodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,10 +29,10 @@ static void	init_routine(t_args *args, t_philo *head)
 	}
 }
 
-int main(int argc, char **argv)
+int	main(int argc, char **argv)
 {
-	t_philo	*head;
-	t_args   args;
+	t_philo		*head;
+	t_args		args;
 	pthread_t	supervisor_pid;
 
 	supervisor_pid = 0;
@@ -45,14 +45,14 @@ int main(int argc, char **argv)
 			init_routine(&args, head);
 			pthread_join(supervisor_pid, NULL);
 			free_philos(head, args);
-            return (0);
+			return (0);
 		}
 		return (1);
 	}
 	else
 	{
-		print_error("Wrong input:\n"G"Correct input: ./philo <N-philos> <die-time>\
- <eat-time> <think-time> [<max-eat-count>]\n"RST);
+		print_error("Wrong input:\n" G "Correct input: ./philo <N-philos> <die-time>\
+ <eat-time> <think-time> [<max-eat-count>]\n" RST);
 		return (1);
 	}
 	return (0);
