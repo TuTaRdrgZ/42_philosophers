@@ -45,15 +45,15 @@ int	main(int argc, char **argv)
 			init_routine(&args, head);
 			pthread_join(supervisor_pid, NULL);
 			free_philos(head, args);
-			return (0);
+			return (EXIT_SUCCESS);
 		}
-		return (1);
+		return (EXIT_FAILURE);
 	}
 	else
 	{
 		print_error("Wrong input:\n" G "Correct input: ./philo <N-philos> <die-time>\
  <eat-time> <think-time> [<max-eat-count>]\n" RST);
-		return (1);
+		return (EXIT_FAILURE);
 	}
-	return (0);
+	return (EXIT_SUCCESS);
 }
