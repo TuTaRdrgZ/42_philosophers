@@ -6,7 +6,7 @@
 /*   By: bautrodr <bautrodr@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 10:07:12 by bautrodr          #+#    #+#             */
-/*   Updated: 2024/03/21 10:11:19 by bautrodr         ###   ########.fr       */
+/*   Updated: 2024/03/25 09:55:12 by bautrodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,8 @@ void	free_philos(t_philo *head, t_args args)
 	int		i;
 	t_philo	*tmp;
 
-	i = 0;
-	while (i < args.philos_nb - 1)
+	i = 1;
+	while (i < args.philos_nb)
 	{
 		tmp = head;
 		head = head->next;
@@ -28,7 +28,7 @@ void	free_philos(t_philo *head, t_args args)
 	}
 	pthread_mutex_destroy(args.printer);
 	ft_memdel(args.printer);
-	ft_memdel(head);
+    ft_memdel(head);
 }
 
 t_philo	*init_link(int id, t_args *arg)
@@ -45,7 +45,12 @@ t_philo	*init_link(int id, t_args *arg)
 	philo->first_meal = 0;
 	philo->eat_times = 0;
 	philo->next = philo;
-	pthread_mutex_init(&philo->fork, NULL);
+    if (pthread_mutex_init(&philo->fork, NULL))
+    {
+        ft_memdel(philo);
+        print_error("Error: mutex init failed\n");
+        return (NULL);
+    }
 	return (philo);
 }
 
@@ -61,7 +66,7 @@ t_philo	*init_philos(t_args *args)
 		return (NULL);
 	head = philo;
 	i = 1;
-	while (i <= args->philos_nb - 1)
+	while (i < args->philos_nb)
 	{
 		i++;
 		new_philo = init_link(i, args);

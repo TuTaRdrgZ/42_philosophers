@@ -40,8 +40,7 @@ void	eat(t_philo *philo)
 	pthread_mutex_unlock(&philo->next->fork);
 	pthread_mutex_unlock(&philo->fork);
 	philo->state = SLEEPING;
-	if (philo->eat_times == philo->args->max_meals - 1)
-		philo->args->total_meal += 1;
+	philo->args->total_meal += 1;
 	philo->eat_times += 1;
 }
 
@@ -50,10 +49,12 @@ void	*routine(void *p_data)
 	t_philo	*philo;
 
 	philo = (t_philo *)p_data;
-	if (philo->id % 2 == 0)
-		ft_msleep(1 * philo->args->time_to_eat);
+    if (philo->id % 2)
+		usleep(1000);
+	else
+		usleep(500);
 	philo->last_meal = get_time_value();
-	while (philo->alive)
+	while (philo->alive && !philo->args->death_flag)
 	{
 		eat(philo);
 		print_state("is sleeping", philo->args->time_to_sleep, philo);

@@ -12,6 +12,20 @@
 
 #include "philo.h"
 
+int check_all_total_meals(t_philo *head)
+{
+    t_philo	*tmp;
+
+    tmp = head;
+    while (tmp->next->id != 1)
+    {
+        if (tmp->args->max_meals && tmp->eat_times == tmp->args->max_meals + 1)
+            return (1);
+        tmp = tmp->next;
+    }
+    return (0);
+}
+
 void	*supervisor(void *p_data)
 {
 	t_philo	*tmp;
@@ -27,11 +41,12 @@ void	*supervisor(void *p_data)
 			tmp->alive = 0;
 			tmp->state = DEAD;
 			print_state("died", 0, tmp);
+            return (tmp);
 		}
-		if (tmp->args->total_meal == tmp->args->philos_nb)
+		if (tmp->args->max_meals > 0 && check_all_total_meals(tmp))
 		{
 			tmp->alive = 0;
-			tmp->state = DEAD;
+            tmp->state = DEAD;
 		}
 		tmp = tmp->next;
 	}
