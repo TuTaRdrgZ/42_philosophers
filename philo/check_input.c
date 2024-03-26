@@ -35,20 +35,48 @@ static int	check_args(t_args *args, char **argv, int argc)
 	args->time_to_die = ft_atoi(argv[2]);
 	args->time_to_eat = ft_atoi(argv[3]);
 	args->time_to_sleep = ft_atoi(argv[4]);
-	args->total_meal = 0;
+	args->finish_eating = 0;
 	args->max_meals = 1;
 	args->death_flag = 0;
 	return (EXIT_SUCCESS);
+}
+
+int init_mutex(t_args *args)
+{
+    if (pthread_mutex_init(&args->printer, NULL) != 0)
+    {
+        print_error("Error: mutex init failed\n");
+        return (EXIT_FAILURE);
+    }
+    if (pthread_mutex_init(&args->m_death, NULL) != 0)
+    {
+        print_error("Error: mutex init failed\n");
+        return (EXIT_FAILURE);
+    }
+    if (pthread_mutex_init(&args->m_eat, NULL) != 0)
+    {
+        print_error("Error: mutex init failed\n");
+        return (EXIT_FAILURE);
+    }
+    if (pthread_mutex_init(&args->m_stop, NULL) != 0)
+    {
+        print_error("Error: mutex init failed\n");
+        return (EXIT_FAILURE);
+    }
+    if (pthread_mutex_init(&args->m_time, NULL) != 0)
+    {
+        print_error("Error: mutex init failed\n");
+        return (EXIT_FAILURE);
+    }
+    return (EXIT_SUCCESS);
 }
 
 int	init_data(t_args *args, char **argv, int argc)
 {
 	if (check_args(args, argv, argc))
 		return (EXIT_FAILURE);
-	args->printer = malloc(sizeof(pthread_mutex_t));
-	if (!args->printer)
-		return (EXIT_FAILURE);
-	pthread_mutex_init(args->printer, NULL);
+    if (init_mutex(args))
+        return (EXIT_FAILURE);
 	if (argc == 6)
 		args->max_meals = ft_atoi(argv[5]);
 	if (args->philos_nb < 1 || args->time_to_die < 0 || args->time_to_eat < 0
@@ -58,5 +86,6 @@ int	init_data(t_args *args, char **argv, int argc)
 		return (EXIT_FAILURE);
 	if (argc < 6)
 		args->max_meals = -1;
+    args->initial_time = get_time_value();
 	return (EXIT_SUCCESS);
 }

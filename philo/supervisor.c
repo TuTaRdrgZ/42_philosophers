@@ -12,43 +12,69 @@
 
 #include "philo.h"
 
-int check_all_total_meals(t_philo *head)
+void finish(t_args *args)
 {
-    t_philo	*tmp;
+	int	i;
 
-    tmp = head;
-    while (tmp->next->id != 1)
-    {
-        if (tmp->args->max_meals && tmp->eat_times == tmp->args->max_meals + 1)
-            return (1);
-        tmp = tmp->next;
-    }
-    return (0);
+	i = -1;
+	pthread_mutex_unlock(&args->printer);
+	pthread_mutex_unlock(&args->m_stop);
+	pthread_mutex_unlock(&args->m_death);
+	pthread_mutex_unlock(&args->m_time);
+    pthread_mutex_unlock(&args->m_eat);
+	if (args->philos_nb == 1)
+		pthread_mutex_unlock((&args->philo[0])->left_fork);
+	while (++i < args->philos_nb)
+		pthread_join(args->philo[i].philo_pid, NULL);
+	i = -1;
+	while (++i < args->philos_nb)
+	{
+		pthread_mutex_unlock((&args->philo[i])->left_fork);
+		pthread_mutex_destroy((&args->philo[i])->left_fork);
+	}
+	pthread_mutex_destroy(&args->printer);
+	pthread_mutex_destroy(&args->m_stop);
+	pthread_mutex_destroy(&args->m_death);
+	pthread_mutex_destroy(&args->m_time);
+    pthread_mutex_destroy(&args->m_eat);
 }
 
-void	*supervisor(void *p_data)
+void    finish_eating(t_args *args)
 {
-	t_philo	*tmp;
-	long	time;
+	pthread_mutex_lock(&args->m_stop);
+	args->death_flag = 1;
+	pthread_mutex_unlock(&args->m_stop);
+    printf("All philos have eaten %d times\n", args->max_meals);
+	finish(args);
+}
 
-	tmp = (t_philo *)p_data;
-	while (tmp->next != NULL && tmp->alive)
+
+void	supervisor(void *p_args)
+{
+	int	    i;
+    t_args  *args;
+
+    args = (t_args *)p_args;
+	i = 0;
+	while (args->death_flag == 0)
 	{
-		time = get_time_value();
-		if (tmp->first_meal != 0 && time
-			- tmp->last_meal > tmp->args->time_to_die)
+		pthread_mutex_lock(&args->m_eat);
+		if (args->finish_eating == args->philos_nb \
+			&& args->max_meals)
+			finish_eating(args);
+		pthread_mutex_unlock(&args->m_eat);
+		pthread_mutex_lock(&args->m_time);
+		if (args->philo[i].last_meal + args->time_to_die < get_timestamp())
 		{
-			tmp->alive = 0;
-			tmp->state = DEAD;
-			print_state("died", 0, tmp);
-            return (tmp);
+			pthread_mutex_lock(&args->m_death);
+			args->death_flag = 1;
+			pthread_mutex_unlock(&args->m_death);
+			printf("%ld %d %s\n", get_timestamp(), args->philo[i].id, "died");
+			finish(args);
 		}
-		if (tmp->args->max_meals > 0 && check_all_total_meals(tmp))
-		{
-			tmp->alive = 0;
-            tmp->state = DEAD;
-		}
-		tmp = tmp->next;
+		pthread_mutex_unlock(&args->m_time);
+		if (++i == args->philos_nb)
+			i = 0;
 	}
-	return (tmp);
+	finish(args);
 }

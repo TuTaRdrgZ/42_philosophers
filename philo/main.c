@@ -12,39 +12,31 @@
 
 #include "philo.h"
 
-static void	init_routine(t_args *args, t_philo *head)
+static void	init_routine(t_args *args)
 {
 	int		i;
-	t_philo	*philo;
 
-	i = 0;
-	args->initial_time = get_time_value();
-	philo = head;
-	while (i < args->philos_nb)
+	i = -1;
+	while (++i < args->philos_nb)
 	{
-		pthread_create(&philo->philo_pid, NULL, routine, philo);
-		pthread_detach(philo->philo_pid);
-		philo = philo->next;
-		i++;
+		if (pthread_create(&(args->philo[i].philo_pid), NULL, \
+		&routine, &(args->philo[i])) != 0)
+            print_error("Error: thread creation failed\n");
 	}
+    supervisor(args);
 }
 
 int	main(int argc, char **argv)
 {
-	t_philo		*head;
 	t_args		args;
-	pthread_t	supervisor_pid;
 
-	supervisor_pid = 0;
 	if (argc == 5 || argc == 6)
 	{
 		if (!init_data(&args, argv, argc))
 		{
-			head = init_philos(&args);
-			pthread_create(&supervisor_pid, NULL, supervisor, head);
-			init_routine(&args, head);
-			pthread_join(supervisor_pid, NULL);
-			free_philos(head, args);
+			init_philos(&args);
+			init_routine(&args);
+			//free_philos(head, args);
 			return (EXIT_SUCCESS);
 		}
 		return (EXIT_FAILURE);

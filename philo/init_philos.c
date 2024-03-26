@@ -12,7 +12,7 @@
 
 #include "philo.h"
 
-void	free_philos(t_philo *head, t_args args)
+void	free_philos(t_args args)
 {
 	int		i;
 	t_philo	*tmp;
@@ -20,61 +20,46 @@ void	free_philos(t_philo *head, t_args args)
 	i = 1;
 	while (i < args.philos_nb)
 	{
-		tmp = head;
-		head = head->next;
-		pthread_mutex_destroy(&tmp->fork);
+        printf("free philo %d\n", tmp->id);
+        pthread_mutex_destroy(&tmp->right_fork);
+		pthread_mutex_destroy(tmp->left_fork);
 		ft_memdel(tmp);
 		i++;
 	}
-	pthread_mutex_destroy(args.printer);
-	ft_memdel(args.printer);
-    ft_memdel(head);
+	//pthread_mutex_destroy(args.printer);
+	//ft_memdel(args.printer);
 }
 
-t_philo	*init_link(int id, t_args *arg)
+int init_philos(t_args *args)
 {
 	t_philo	*philo;
+    int     i;
 
-	philo = malloc(sizeof(t_philo));
+	philo = malloc(sizeof(t_philo) * args->philos_nb);
 	if (!philo)
-		return (NULL);
-	philo->id = id;
-	philo->alive = 1;
-	philo->state = THINKING;
-	philo->args = arg;
-	philo->first_meal = 0;
-	philo->eat_times = 0;
-	philo->next = philo;
-    if (pthread_mutex_init(&philo->fork, NULL))
+		return (EXIT_FAILURE);
+    i = 0;
+    while (i < args->philos_nb)
     {
-        ft_memdel(philo);
-        print_error("Error: mutex init failed\n");
-        return (NULL);
+        if (pthread_mutex_init(&philo->right_fork, NULL)
+            || pthread_mutex_init(&philo->m_last_meal, NULL)
+            || pthread_mutex_init(&philo->m_eat_times, NULL))
+        {
+            ft_memdel(philo);
+            print_error("Error: mutex init failed\n");
+            return (EXIT_FAILURE);
+        }
+        philo[i].id = i + 1;
+        philo[i].state = THINKING;
+        philo[i].args = args;
+        philo[i].first_meal = 0;
+        philo[i].eat_times = 0;
+        philo[i].last_meal = get_time_value();
+        if (i > 0)
+            philo[i].left_fork = &philo[i - 1].right_fork;
+        i++;
     }
-	return (philo);
-}
-
-t_philo	*init_philos(t_args *args)
-{
-	t_philo	*philo;
-	t_philo	*new_philo;
-	t_philo	*head;
-	int		i;
-
-	philo = init_link(1, args);
-	if (!philo)
-		return (NULL);
-	head = philo;
-	i = 1;
-	while (i < args->philos_nb)
-	{
-		i++;
-		new_philo = init_link(i, args);
-		if (!new_philo)
-			return (NULL);
-		philo->next = new_philo;
-		philo = new_philo;
-	}
-	philo->next = head;
-	return (head);
+    philo[0].left_fork = &philo[args->philos_nb - 1].right_fork;
+    args->philo = philo;
+    return (EXIT_SUCCESS);
 }

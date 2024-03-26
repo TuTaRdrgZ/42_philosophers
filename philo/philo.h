@@ -49,26 +49,32 @@ typedef struct s_args
 	int					time_to_sleep;
 	int					max_meals;
 	int					death_flag;
-	int					total_meal;
-	long				initial_time;
-	pthread_mutex_t		*printer;
+	int		            finish_eating;
+	long long int		initial_time;
+	pthread_mutex_t		printer;
+    pthread_mutex_t     m_death;
+    pthread_mutex_t     m_eat;
+    pthread_mutex_t     m_stop;
+	pthread_mutex_t	    m_time;
+    struct s_philo		*philo;
 }						t_args;
 
 typedef struct s_philo
 {
 	pthread_t			philo_pid;
-	pthread_mutex_t		fork;
+    pthread_mutex_t		*left_fork;
+	pthread_mutex_t		right_fork;
+    pthread_mutex_t     m_last_meal;
+    pthread_mutex_t     m_eat_times;
 	int					id;
-	int					alive;
 	int					eat_times;
-	int					first_meal;
+	long	    		first_meal;
 	long				last_meal;
 	enum e_state		state;
 	t_args				*args;
-	struct s_philo		*next;
 }						t_philo;
 
-void					*supervisor(void *p_data);
+void					supervisor(void *p_data);
 void					print_error(char *str);
 void					print_state(char *action, useconds_t delay,
 							t_philo *philo);
@@ -77,9 +83,10 @@ void					ft_msleep(int milliseconds);
 int						is_digit_str(char *str);
 int						ft_strlen(char *str);
 void					ft_memdel(void *ptr);
-void					free_philos(t_philo *head, t_args args);
+void					free_philos(t_args args);
 long					ft_atoi(const char *str);
 long					get_time_value(void);
+time_t	                get_timestamp(void);
 int						init_data(t_args *args, char **argv, int argc);
-t_philo					*init_philos(t_args *args);
+int                     init_philos(t_args *args);
 #endif
