@@ -12,24 +12,6 @@
 
 #include "philo.h"
 
-void	free_philos(t_args args)
-{
-	int		i;
-	t_philo	*tmp;
-
-	i = 1;
-	while (i < args.philos_nb)
-	{
-        printf("free philo %d\n", tmp->id);
-        pthread_mutex_destroy(&tmp->right_fork);
-		pthread_mutex_destroy(tmp->left_fork);
-		ft_memdel(tmp);
-		i++;
-	}
-	//pthread_mutex_destroy(args.printer);
-	//ft_memdel(args.printer);
-}
-
 int init_philos(t_args *args)
 {
 	t_philo	*philo;
@@ -52,6 +34,7 @@ int init_philos(t_args *args)
         philo[i].id = i + 1;
         philo[i].state = THINKING;
         philo[i].args = args;
+        philo[i].alive = 1;
         philo[i].first_meal = 0;
         philo[i].eat_times = 0;
         philo[i].last_meal = get_time_value();

@@ -68,6 +68,7 @@ typedef struct s_philo
     pthread_mutex_t     m_eat_times;
 	int					id;
 	int					eat_times;
+    int                 alive;
 	long	    		first_meal;
 	long				last_meal;
 	enum e_state		state;
@@ -89,4 +90,6 @@ long					get_time_value(void);
 time_t	                get_timestamp(void);
 int						init_data(t_args *args, char **argv, int argc);
 int                     init_philos(t_args *args);
+int                     ft_strcmp(const char *s1, const char *s2);
+void                    print_colors(t_philo *philo, char *action);
 #endif
