@@ -6,7 +6,7 @@
 /*   By: bautrodr <bautrodr@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 10:51:44 by bautrodr          #+#    #+#             */
-/*   Updated: 2024/03/21 10:11:49 by bautrodr         ###   ########.fr       */
+/*   Updated: 2024/03/28 16:47:49 by bautrodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,10 @@ int	eat(t_philo *philo)
     print_state(W "has taken a fork" RST, 0, philo);
     pthread_mutex_lock(&philo->right_fork);
     print_state(W "has taken a fork" RST, 0, philo);
-    print_state(B "is eating" RST, philo->args->time_to_eat, philo);
+	pthread_mutex_lock(&philo->m_state);
     philo->state = EATING;
+	pthread_mutex_unlock(&philo->m_state);
+    print_state(B "is eating" RST, philo->args->time_to_eat, philo);
     pthread_mutex_unlock(philo->left_fork);
     pthread_mutex_unlock(&philo->right_fork);
     pthread_mutex_lock(&philo->m_eat_times);
@@ -65,12 +67,21 @@ void	*routine(void *p_data)
     while (philo->alive && !philo->args->death_flag)
     {
         pthread_mutex_lock(&philo->args->m_time);
-        philo->state = THINKING;
         pthread_mutex_unlock(&philo->args->m_time);
         if (eat(philo))
-            break ;
-        print_state("is sleeping", philo->args->time_to_sleep, philo);
+		{
+			pthread_mutex_lock(&philo->m_state);
+			philo->state = SLEEPING;
+			pthread_mutex_unlock(&philo->m_state);
+			break ;
+		}
+		pthread_mutex_lock(&philo->m_state);
         philo->state = SLEEPING;
+		pthread_mutex_unlock(&philo->m_state);
+        print_state("is sleeping", philo->args->time_to_sleep, philo);
+		pthread_mutex_lock(&philo->m_state);
+        philo->state = THINKING;
+		pthread_mutex_unlock(&philo->m_state);
         print_state("is thinking", 0, philo);
     }
     return (NULL);

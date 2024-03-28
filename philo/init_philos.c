@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   philos.c                                           :+:      :+:    :+:   */
+/*   init_philos.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bautrodr <bautrodr@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 10:07:12 by bautrodr          #+#    #+#             */
-/*   Updated: 2024/03/25 09:55:12 by bautrodr         ###   ########.fr       */
+/*   Updated: 2024/03/28 16:21:56 by bautrodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,8 @@ int init_philos(t_args *args)
     {
         if (pthread_mutex_init(&philo->right_fork, NULL)
             || pthread_mutex_init(&philo->m_last_meal, NULL)
-            || pthread_mutex_init(&philo->m_eat_times, NULL))
+            || pthread_mutex_init(&philo->m_eat_times, NULL)
+			|| pthread_mutex_init(&philo->m_state, NULL))
         {
             ft_memdel(philo);
             print_error("Error: mutex init failed\n");

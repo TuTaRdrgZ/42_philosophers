@@ -6,7 +6,7 @@
 /*   By: bautrodr <bautrodr@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 09:01:09 by bautrodr          #+#    #+#             */
-/*   Updated: 2024/03/21 10:11:55 by bautrodr         ###   ########.fr       */
+/*   Updated: 2024/03/28 16:25:47 by bautrodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ void	supervisor(void *p_args)
 
     args = (t_args *)p_args;
 	i = 0;
-	while (!args->death_flag)
+	while (1)
 	{
         /*printf("------------------------------------------\n");
         printf("           philo %d\n", args->philo[i].id);
@@ -61,7 +61,7 @@ void	supervisor(void *p_args)
         {
             pthread_mutex_lock(&args->m_death);
             args->death_flag = 1;
-            print_state(RED "died" RST, 0, &args->philo[i]);
+			printf(RED "Philo %d died\n" RST, args->philo[i].id);
             pthread_mutex_unlock(&args->m_death);
             pthread_mutex_unlock(&args->m_time);
             break ;

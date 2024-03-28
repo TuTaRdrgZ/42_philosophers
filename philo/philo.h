@@ -6,7 +6,7 @@
 /*   By: bautrodr <bautrodr@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/28 11:38:05 by bautrodr          #+#    #+#             */
-/*   Updated: 2024/03/21 10:19:26 by bautrodr         ###   ########.fr       */
+/*   Updated: 2024/03/28 16:20:42 by bautrodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ typedef struct s_philo
 	pthread_mutex_t		right_fork;
     pthread_mutex_t     m_last_meal;
     pthread_mutex_t     m_eat_times;
+	pthread_mutex_t		m_state;
 	int					id;
 	int					eat_times;
     int                 alive;
