@@ -53,6 +53,7 @@ typedef struct s_args
 	long long int		initial_time;
 	pthread_mutex_t		printer;
     pthread_mutex_t     m_death;
+    pthread_mutex_t     m_done;
     pthread_mutex_t     m_eat;
     pthread_mutex_t     m_stop;
 	pthread_mutex_t	    m_time;
@@ -78,8 +79,7 @@ typedef struct s_philo
 
 void					supervisor(void *p_data);
 void					print_error(char *str);
-void					print_state(char *action, useconds_t delay,
-							t_philo *philo);
+void					print_state(char *action, t_philo *philo);
 void					*routine(void *p_data);
 void					ft_msleep(int milliseconds);
 int						is_digit_str(char *str);
@@ -89,6 +89,7 @@ void					free_philos(t_args args);
 long					ft_atoi(const char *str);
 long					get_time_value(void);
 time_t	                get_timestamp(void);
+void	                ft_usleep(int ms);
 int						init_data(t_args *args, char **argv, int argc);
 int                     init_philos(t_args *args);
 int                     ft_strcmp(const char *s1, const char *s2);

@@ -30,6 +30,15 @@ long	get_time_value(void)
 	return ((timestamp.tv_sec * 1000) + (timestamp.tv_usec / 1000));
 }
 
+void	ft_usleep(int ms)
+{
+	long int	time;
+
+	time = get_time_value();
+	while (get_time_value() - time < ms)
+		usleep(100);
+}
+
 time_t	get_timestamp(void)
 {
 	static time_t	start_time = 0;

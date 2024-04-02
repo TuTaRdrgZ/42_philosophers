@@ -68,6 +68,11 @@ int init_mutex(t_args *args)
         print_error("Error: mutex init failed\n");
         return (EXIT_FAILURE);
     }
+    if (pthread_mutex_init(&args->m_done, NULL) != 0)
+    {
+        print_error("Error: mutex init failed\n");
+        return (EXIT_FAILURE);
+    }
     return (EXIT_SUCCESS);
 }
 
