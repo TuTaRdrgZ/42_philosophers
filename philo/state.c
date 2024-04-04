@@ -39,13 +39,13 @@ int	eat(t_philo *philo)
     philo->state = EATING;
 	pthread_mutex_unlock(&philo->m_state);
     print_state(B "is eating" RST, philo);
-    ft_usleep(philo->args->time_to_eat);
     pthread_mutex_unlock(philo->left_fork);
     pthread_mutex_unlock(&philo->right_fork);
     pthread_mutex_lock(&philo->m_eat_times);
     philo->eat_times++;
     philo->last_meal = get_timestamp();
     pthread_mutex_unlock(&philo->m_eat_times);
+    ft_usleep(philo->args->time_to_eat);
     if (philo->eat_times == philo->args->max_meals)
     {
         pthread_mutex_lock(&philo->args->m_eat);
@@ -56,7 +56,7 @@ int	eat(t_philo *philo)
     return (0);
 }
 
-int    philo_sleep(t_philo *philo)
+int philo_sleep(t_philo *philo)
 {
     pthread_mutex_lock(&philo->args->m_death);
     if (philo->args->death_flag)

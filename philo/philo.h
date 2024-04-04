@@ -89,6 +89,7 @@ void					free_philos(t_args args);
 long					ft_atoi(const char *str);
 long					get_time_value(void);
 time_t	                get_timestamp(void);
+time_t	                get_timestampsuper(void);
 void	                ft_usleep(int ms);
 int						init_data(t_args *args, char **argv, int argc);
 int                     init_philos(t_args *args);

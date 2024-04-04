@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "philo.h"
+#include <pthread.h>
 
 void finish(t_args *args)
 {
@@ -46,10 +47,10 @@ int	is_dead(t_philo *philo)
 {
 	long int	time;
 
-	pthread_mutex_lock(&philo->args->m_time);
-	time = get_timestamp() - philo->last_meal;
-	pthread_mutex_unlock(&philo->args->m_time);
-	if (time > philo->args->time_to_die)
+    pthread_mutex_lock(&philo->m_last_meal);
+	time = get_timestampsuper() - philo->last_meal;
+    pthread_mutex_unlock(&philo->m_last_meal);
+	if (time >= philo->args->time_to_die)
 		return (1);
 	return (0);
 }
@@ -57,12 +58,12 @@ int	is_dead(t_philo *philo)
 int check_if_stop(t_args *args)
 {
     pthread_mutex_lock(&args->m_stop);
-    if (args->death_flag)
+    if (args->death_flag == 1)
     {
-        pthread_mutex_lock(&args->m_stop);
+        pthread_mutex_unlock(&args->m_stop);
         return (1);
     }
-        pthread_mutex_lock(&args->m_stop);
+    pthread_mutex_unlock(&args->m_stop);
     return (0);
 }
 
@@ -84,22 +85,23 @@ void	supervisor(void *p_data)
     t_args *args;
 
     args = p_data;
-	while (!check_if_stop(args))
+    get_timestampsuper();
+	while (check_if_stop(args) == 0)
 	{
 		i = -1;
 		while (++i < args->philos_nb)
 		{
-            if (complete_eating(args))
+            if (complete_eating(args) == 1)
             {
                 printf("All philosophers have eaten %d times\n", args->max_meals);
-                break ;
+                return (finish(args));
             }
-			else if (is_dead(&args->philo[i]))
+			if (is_dead(&args->philo[i]) == 1)
 			{
                 print_state(RED "died" RST, &args->philo[i]);
-				break ;
+                return (finish(args));
 			}
 		}
-	}
+    }
     finish(args);
 }
