@@ -43,14 +43,16 @@ int	eat(t_philo *philo)
     pthread_mutex_unlock(&philo->right_fork);
     pthread_mutex_lock(&philo->m_eat_times);
     philo->eat_times++;
-    philo->last_meal = get_timestamp();
     pthread_mutex_unlock(&philo->m_eat_times);
+    pthread_mutex_lock(&philo->args->m_eat);
+    philo->last_meal = get_timestamp();
+    pthread_mutex_unlock(&philo->args->m_eat);
     ft_usleep(philo->args->time_to_eat);
     if (philo->eat_times == philo->args->max_meals)
     {
-        pthread_mutex_lock(&philo->args->m_eat);
+        pthread_mutex_lock(&philo->args->m_done);
         philo->args->finish_eating++;
-        pthread_mutex_unlock(&philo->args->m_eat);
+        pthread_mutex_unlock(&philo->args->m_done);
         return (1);
     }
     return (0);
@@ -88,8 +90,18 @@ void	*routine(void *p_data)
     t_philo	*philo;
 
     philo = (t_philo *)p_data;
+    if (philo->args->philos_nb == 1)
+    {
+        print_state(W "has taken a fork" RST, philo);
+        ft_usleep(philo->args->time_to_die);
+        print_state(RED "died" RST, philo);
+        pthread_mutex_lock(&philo->args->m_stop);
+        philo->args->death_flag = 1;
+        pthread_mutex_unlock(&philo->args->m_stop);
+        return (NULL);
+    }
     if (philo->id % 2 == 0)
-        ft_usleep(philo->args->time_to_eat * 0.1);
+        ft_usleep(philo->args->time_to_eat / 2);
     while (1)
     {
         pthread_mutex_lock(&philo->args->m_death);

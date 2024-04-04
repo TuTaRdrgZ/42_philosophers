@@ -47,10 +47,10 @@ int	is_dead(t_philo *philo)
 {
 	long int	time;
 
-    pthread_mutex_lock(&philo->m_last_meal);
+    pthread_mutex_lock(&philo->args->m_eat);
 	time = get_timestampsuper() - philo->last_meal;
-    pthread_mutex_unlock(&philo->m_last_meal);
-	if (time >= philo->args->time_to_die)
+    pthread_mutex_unlock(&philo->args->m_eat);
+	if (time >= philo->args->time_to_die || philo->args->death_flag == 1)
 		return (1);
 	return (0);
 }
@@ -93,7 +93,7 @@ void	supervisor(void *p_data)
 		{
             if (complete_eating(args) == 1)
             {
-                printf("All philosophers have eaten %d times\n", args->max_meals);
+                printf(G "All philosophers have eaten %d times\n" RST, args->max_meals);
                 return (finish(args));
             }
 			if (is_dead(&args->philo[i]) == 1)
