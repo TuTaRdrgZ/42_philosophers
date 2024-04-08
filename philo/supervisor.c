@@ -98,7 +98,8 @@ void	supervisor(void *p_data)
             }
 			if (is_dead(&args->philo[i]) == 1)
 			{
-                print_state(RED "died" RST, &args->philo[i]);
+                printf(RED "%ld %d died\n" RST, get_timestampsuper(), i + 1);
+                args->death_flag = 1;
                 return (finish(args));
 			}
 		}

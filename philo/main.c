@@ -24,7 +24,7 @@ static void	init_routine(t_args *args)
             print_error("Error: thread creation failed\n");
         pthread_detach(args->philo[i].philo_pid);
 	}
-    return (supervisor(args));
+    supervisor(args);
 }
 
 int	main(int argc, char **argv)
