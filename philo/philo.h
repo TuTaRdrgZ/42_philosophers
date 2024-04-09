@@ -33,14 +33,6 @@
 
 typedef struct timeval	t_timeval;
 
-enum					e_state
-{
-	EATING,
-	SLEEPING,
-	THINKING,
-	DEAD
-};
-
 typedef struct s_args
 {
 	int					philos_nb;
@@ -56,7 +48,6 @@ typedef struct s_args
     pthread_mutex_t     m_done;
     pthread_mutex_t     m_eat;
     pthread_mutex_t     m_stop;
-	pthread_mutex_t	    m_time;
     struct s_philo		*philo;
 }						t_args;
 
@@ -67,16 +58,17 @@ typedef struct s_philo
 	pthread_mutex_t		right_fork;
     pthread_mutex_t     m_last_meal;
     pthread_mutex_t     m_eat_times;
-	pthread_mutex_t		m_state;
+    int                 holding_left;
+    int                 holding_right;
 	int					id;
 	int					eat_times;
     int                 alive;
 	long	    		first_meal;
 	long				last_meal;
-	enum e_state		state;
 	t_args				*args;
 }						t_philo;
 
+void                    finish(t_args *args);
 void					supervisor(void *p_data);
 void					print_error(char *str);
 void					print_state(char *action, t_philo *philo);

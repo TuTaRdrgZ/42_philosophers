@@ -18,12 +18,12 @@ void finish(t_args *args)
 	int	i;
 
 	i = -1;
-	pthread_mutex_unlock(&args->printer);
-	pthread_mutex_unlock(&args->m_stop);
-	pthread_mutex_unlock(&args->m_death);
-	pthread_mutex_unlock(&args->m_time);
-    pthread_mutex_unlock(&args->m_eat);
-    pthread_mutex_unlock(&args->m_done);
+//	pthread_mutex_unlock(&args->printer);
+//	pthread_mutex_unlock(&args->m_stop);
+	//pthread_mutex_unlock(&args->m_death);
+	//pthread_mutex_unlock(&args->m_time);
+    //pthread_mutex_unlock(&args->m_eat);
+    //pthread_mutex_unlock(&args->m_done);
 	if (args->philos_nb == 1)
 		pthread_mutex_unlock((&args->philo[0])->left_fork);
 	while (++i < args->philos_nb)
@@ -31,13 +31,12 @@ void finish(t_args *args)
 	i = -1;
 	while (++i < args->philos_nb)
 	{
-		pthread_mutex_unlock((&args->philo[i])->left_fork);
 		pthread_mutex_destroy((&args->philo[i])->left_fork);
 	}
 	pthread_mutex_destroy(&args->printer);
 	pthread_mutex_destroy(&args->m_stop);
 	pthread_mutex_destroy(&args->m_death);
-	pthread_mutex_destroy(&args->m_time);
+	//pthread_mutex_destroy(&args->m_time);
     pthread_mutex_destroy(&args->m_eat);
     pthread_mutex_destroy(&args->m_done);
     free(args->philo);
@@ -49,9 +48,12 @@ int	is_dead(t_philo *philo)
 
     pthread_mutex_lock(&philo->args->m_eat);
 	time = get_timestampsuper() - philo->last_meal;
-    pthread_mutex_unlock(&philo->args->m_eat);
 	if (time >= philo->args->time_to_die || philo->args->death_flag == 1)
+    {
+        pthread_mutex_unlock(&philo->args->m_eat);
 		return (1);
+    }
+    pthread_mutex_unlock(&philo->args->m_eat);
 	return (0);
 }
 
@@ -96,13 +98,14 @@ void	supervisor(void *p_data)
                 printf(G "All philosophers have eaten %d times\n" RST, args->max_meals);
                 return (finish(args));
             }
-			if (is_dead(&args->philo[i]) == 1)
+			if (is_dead(&args->philo[i]) == 1 && args->philos_nb != 1)
 			{
                 printf(RED "%ld %d died\n" RST, get_timestampsuper(), i + 1);
+                pthread_mutex_lock(&args->m_death);
                 args->death_flag = 1;
+                pthread_mutex_unlock(&args->m_death);
                 return (finish(args));
 			}
 		}
     }
-    finish(args);
 }

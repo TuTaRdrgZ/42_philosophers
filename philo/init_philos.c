@@ -12,6 +12,18 @@
 
 #include "philo.h"
 
+static void init_philo_args(t_philo *philo, t_args *args, int i)
+{
+    philo->id = i + 1;
+    philo->args = args;
+    philo->alive = 1;
+    philo->first_meal = 0;
+    philo->eat_times = 0;
+    philo->holding_left = 0;
+    philo->holding_right = 0;
+    philo->last_meal = get_time_value();
+}
+
 int init_philos(t_args *args)
 {
 	t_philo	*philo;
@@ -25,20 +37,13 @@ int init_philos(t_args *args)
     {
         if (pthread_mutex_init(&philo->right_fork, NULL)
             || pthread_mutex_init(&philo->m_last_meal, NULL)
-            || pthread_mutex_init(&philo->m_eat_times, NULL)
-			|| pthread_mutex_init(&philo->m_state, NULL))
+            || pthread_mutex_init(&philo->m_eat_times, NULL))
         {
             ft_memdel(philo);
             print_error("Error: mutex init failed\n");
             return (EXIT_FAILURE);
         }
-        philo[i].id = i + 1;
-        philo[i].state = THINKING;
-        philo[i].args = args;
-        philo[i].alive = 1;
-        philo[i].first_meal = 0;
-        philo[i].eat_times = 0;
-        philo[i].last_meal = get_time_value();
+        init_philo_args(&philo[i], args, i);
         if (i > 0)
             philo[i].left_fork = &philo[i - 1].right_fork;
         i++;

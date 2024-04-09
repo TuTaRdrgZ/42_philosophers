@@ -25,13 +25,14 @@ SRCS = main.c \
        check_input.c \
        state.c \
        init_philos.c \
+	   print_state.c \
 	   supervisor.c
 
 OBJS = $(SRCS:.c=.o)
 
 CC = gcc
 
-CFLAGS = -Wall -Wextra -Werror# -pthread -g -fsanitize=thread
+CFLAGS = -Wextra -Werror -pthread# -g -fsanitize=thread
 
 all: $(NAME)
 

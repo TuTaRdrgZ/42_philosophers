@@ -12,7 +12,7 @@
 
 #include "philo.h"
 
-static void	init_routine(t_args *args)
+static int	init_routine(t_args *args)
 {
 	int		i;
 
@@ -21,10 +21,13 @@ static void	init_routine(t_args *args)
 	{
 		if (pthread_create(&(args->philo[i].philo_pid), NULL, \
 		&routine, &(args->philo[i])) != 0)
+        {
             print_error("Error: thread creation failed\n");
-        pthread_detach(args->philo[i].philo_pid);
+            return (1);
+        }
+        //pthread_detach(args->philo[i].philo_pid);
 	}
-    supervisor(args);
+    return (0);
 }
 
 int	main(int argc, char **argv)
@@ -36,7 +39,10 @@ int	main(int argc, char **argv)
 		if (!init_data(&args, argv, argc))
 		{
 			init_philos(&args);
-			init_routine(&args);
+			if (!init_routine(&args))
+            {
+                supervisor(&args);
+            }
 			return (EXIT_SUCCESS);
 		}
 		return (EXIT_FAILURE);
