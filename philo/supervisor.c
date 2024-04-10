@@ -49,7 +49,7 @@ int	is_dead(t_philo *philo)
 
 	pthread_mutex_lock(&philo->args->m_eat);
 	time = get_timestampsuper() - philo->last_meal;
-	if (time >= philo->args->time_to_die || philo->args->death_flag == 1)
+	if (time >= philo->args->time_to_die)
 	{
 		pthread_mutex_unlock(&philo->args->m_eat);
 		return (1);

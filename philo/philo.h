@@ -59,7 +59,6 @@ typedef struct s_philo
 	pthread_mutex_t		right_fork;
 	pthread_mutex_t		m_last_meal;
 	pthread_mutex_t		m_eat_times;
-    pthread_mutex_t     m_stop_printing;
 	int					holding_left;
 	int					holding_right;
 	int					id;
