@@ -6,7 +6,7 @@
 /*   By: bautrodr <bautrodr@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/28 11:38:05 by bautrodr          #+#    #+#             */
-/*   Updated: 2024/03/28 16:20:42 by bautrodr         ###   ########.fr       */
+/*   Updated: 2024/04/10 14:47:26 by bautrodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,34 +41,36 @@ typedef struct s_args
 	int					time_to_sleep;
 	int					max_meals;
 	int					death_flag;
-	int		            finish_eating;
+	int					finish_eating;
+    int                 finish;
 	long long int		initial_time;
 	pthread_mutex_t		printer;
-    pthread_mutex_t     m_death;
-    pthread_mutex_t     m_done;
-    pthread_mutex_t     m_eat;
-    pthread_mutex_t     m_stop;
-    struct s_philo		*philo;
+	pthread_mutex_t		m_death;
+	pthread_mutex_t		m_done;
+	pthread_mutex_t		m_eat;
+	pthread_mutex_t		m_stop;
+	struct s_philo		*philo;
 }						t_args;
 
 typedef struct s_philo
 {
 	pthread_t			philo_pid;
-    pthread_mutex_t		*left_fork;
+	pthread_mutex_t		*left_fork;
 	pthread_mutex_t		right_fork;
-    pthread_mutex_t     m_last_meal;
-    pthread_mutex_t     m_eat_times;
-    int                 holding_left;
-    int                 holding_right;
+	pthread_mutex_t		m_last_meal;
+	pthread_mutex_t		m_eat_times;
+    pthread_mutex_t     m_stop_printing;
+	int					holding_left;
+	int					holding_right;
 	int					id;
 	int					eat_times;
-    int                 alive;
-	long	    		first_meal;
+	int					alive;
+	long				first_meal;
 	long				last_meal;
 	t_args				*args;
 }						t_philo;
 
-void                    finish(t_args *args);
+void					finish(t_args *args);
 void					supervisor(void *p_data);
 void					print_error(char *str);
 void					print_state(char *action, t_philo *philo);
@@ -80,11 +82,11 @@ void					ft_memdel(void *ptr);
 void					free_philos(t_args args);
 long					ft_atoi(const char *str);
 long					get_time_value(void);
-time_t	                get_timestamp(void);
-time_t	                get_timestampsuper(void);
-void	                ft_usleep(int ms);
+time_t					get_timestamp(void);
+time_t					get_timestampsuper(void);
+void					ft_usleep(int ms);
 int						init_data(t_args *args, char **argv, int argc);
-int                     init_philos(t_args *args);
-int                     ft_strcmp(const char *s1, const char *s2);
-void                    print_colors(t_philo *philo, char *action);
+int						init_philos(t_args *args);
+int						ft_strcmp(const char *s1, const char *s2);
+void					print_colors(t_philo *philo, char *action);
 #endif

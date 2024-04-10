@@ -6,7 +6,7 @@
 /*   By: bautrodr <bautrodr@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/28 12:49:51 by bautrodr          #+#    #+#             */
-/*   Updated: 2024/03/21 10:11:12 by bautrodr         ###   ########.fr       */
+/*   Updated: 2024/04/10 14:48:44 by bautrodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,47 +36,48 @@ static int	check_args(t_args *args, char **argv, int argc)
 	args->time_to_eat = ft_atoi(argv[3]);
 	args->time_to_sleep = ft_atoi(argv[4]);
 	args->finish_eating = 0;
+    args->finish = 0;
 	args->max_meals = 1;
 	args->death_flag = 0;
 	return (EXIT_SUCCESS);
 }
 
-int init_mutex(t_args *args)
+int	init_mutex(t_args *args)
 {
-    if (pthread_mutex_init(&args->printer, NULL) != 0)
-    {
-        print_error("Error: mutex init failed\n");
-        return (EXIT_FAILURE);
-    }
-    if (pthread_mutex_init(&args->m_death, NULL) != 0)
-    {
-        print_error("Error: mutex init failed\n");
-        return (EXIT_FAILURE);
-    }
-    if (pthread_mutex_init(&args->m_eat, NULL) != 0)
-    {
-        print_error("Error: mutex init failed\n");
-        return (EXIT_FAILURE);
-    }
-    if (pthread_mutex_init(&args->m_stop, NULL) != 0)
-    {
-        print_error("Error: mutex init failed\n");
-        return (EXIT_FAILURE);
-    }
-    if (pthread_mutex_init(&args->m_done, NULL) != 0)
-    {
-        print_error("Error: mutex init failed\n");
-        return (EXIT_FAILURE);
-    }
-    return (EXIT_SUCCESS);
+	if (pthread_mutex_init(&args->printer, NULL) != 0)
+	{
+		print_error("Error: mutex init failed\n");
+		return (EXIT_FAILURE);
+	}
+	if (pthread_mutex_init(&args->m_death, NULL) != 0)
+	{
+		print_error("Error: mutex init failed\n");
+		return (EXIT_FAILURE);
+	}
+	if (pthread_mutex_init(&args->m_eat, NULL) != 0)
+	{
+		print_error("Error: mutex init failed\n");
+		return (EXIT_FAILURE);
+	}
+	if (pthread_mutex_init(&args->m_stop, NULL) != 0)
+	{
+		print_error("Error: mutex init failed\n");
+		return (EXIT_FAILURE);
+	}
+	if (pthread_mutex_init(&args->m_done, NULL) != 0)
+	{
+		print_error("Error: mutex init failed\n");
+		return (EXIT_FAILURE);
+	}
+	return (EXIT_SUCCESS);
 }
 
 int	init_data(t_args *args, char **argv, int argc)
 {
 	if (check_args(args, argv, argc))
 		return (EXIT_FAILURE);
-    if (init_mutex(args))
-        return (EXIT_FAILURE);
+	if (init_mutex(args))
+		return (EXIT_FAILURE);
 	if (argc == 6)
 		args->max_meals = ft_atoi(argv[5]);
 	if (args->philos_nb < 1 || args->time_to_die < 0 || args->time_to_eat < 0
@@ -86,6 +87,6 @@ int	init_data(t_args *args, char **argv, int argc)
 		return (EXIT_FAILURE);
 	if (argc < 6)
 		args->max_meals = -1;
-    args->initial_time = get_time_value();
+	args->initial_time = get_time_value();
 	return (EXIT_SUCCESS);
 }

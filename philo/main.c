@@ -6,7 +6,7 @@
 /*   By: bautrodr <bautrodr@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/28 12:09:25 by bautrodr          #+#    #+#             */
-/*   Updated: 2024/03/21 10:11:24 by bautrodr         ###   ########.fr       */
+/*   Updated: 2024/04/10 14:47:49 by bautrodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,25 +14,25 @@
 
 static int	init_routine(t_args *args)
 {
-	int		i;
+	int	i;
 
 	i = -1;
 	while (++i < args->philos_nb)
 	{
-		if (pthread_create(&(args->philo[i].philo_pid), NULL, \
-		&routine, &(args->philo[i])) != 0)
-        {
-            print_error("Error: thread creation failed\n");
-            return (1);
-        }
-        //pthread_detach(args->philo[i].philo_pid);
+		if (pthread_create(&(args->philo[i].philo_pid), NULL, &routine,
+				&(args->philo[i])) != 0)
+		{
+			print_error("Error: thread creation failed\n");
+			return (1);
+		}
+		// pthread_detach(args->philo[i].philo_pid);
 	}
-    return (0);
+	return (0);
 }
 
 int	main(int argc, char **argv)
 {
-	t_args		args;
+	t_args	args;
 
 	if (argc == 5 || argc == 6)
 	{
@@ -40,9 +40,9 @@ int	main(int argc, char **argv)
 		{
 			init_philos(&args);
 			if (!init_routine(&args))
-            {
-                supervisor(&args);
-            }
+			{
+				supervisor(&args);
+			}
 			return (EXIT_SUCCESS);
 		}
 		return (EXIT_FAILURE);
