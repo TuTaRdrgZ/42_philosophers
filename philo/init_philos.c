@@ -35,7 +35,7 @@ int	init_philos(t_args *args)
 	i = 0;
 	while (i < args->philos_nb)
 	{
-		if (pthread_mutex_init(&philo->right_fork, NULL)
+		if (pthread_mutex_init(&(philo[i].right_fork), NULL)
 			|| pthread_mutex_init(&philo->m_last_meal, NULL)
 			|| pthread_mutex_init(&philo->m_eat_times, NULL))
 		{
@@ -44,7 +44,7 @@ int	init_philos(t_args *args)
 			return (EXIT_FAILURE);
 		}
 		init_philo_args(&philo[i], args, i);
-		if (i > 0)
+		if (i != 0)
 			philo[i].left_fork = &philo[i - 1].right_fork;
 		i++;
 	}

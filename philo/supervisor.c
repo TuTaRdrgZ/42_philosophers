@@ -18,12 +18,6 @@ void	finish(t_args *args)
 	int	i;
 
 	i = -1;
-	//	pthread_mutex_unlock(&args->printer);
-	//	pthread_mutex_unlock(&args->m_stop);
-	// pthread_mutex_unlock(&args->m_death);
-	// pthread_mutex_unlock(&args->m_time);
-	// pthread_mutex_unlock(&args->m_eat);
-	// pthread_mutex_unlock(&args->m_done);
     args->finish = 1;
 	if (args->philos_nb == 1)
 		pthread_mutex_unlock((&args->philo[0])->left_fork);
@@ -37,7 +31,6 @@ void	finish(t_args *args)
 	pthread_mutex_destroy(&args->printer);
 	pthread_mutex_destroy(&args->m_stop);
 	pthread_mutex_destroy(&args->m_death);
-	// pthread_mutex_destroy(&args->m_time);
 	pthread_mutex_destroy(&args->m_eat);
 	pthread_mutex_destroy(&args->m_done);
 	free(args->philo);

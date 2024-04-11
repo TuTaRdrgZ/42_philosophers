@@ -96,6 +96,7 @@ void	handle_one_philo(t_philo *philo)
 	philo->args->death_flag = 1;
 	pthread_mutex_unlock(&philo->args->m_stop);
     pthread_mutex_unlock(philo->left_fork);
+    pthread_detach(philo->philo_pid);
 }
 
 void	*routine(void *p_data)
