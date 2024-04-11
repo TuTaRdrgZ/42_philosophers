@@ -42,7 +42,8 @@ int	main(int argc, char **argv)
 			{
 				supervisor(&args);
 			}
-            finish(&args);
+            if (args.philos_nb == 1)
+                finish(&args);
 			return (EXIT_SUCCESS);
 		}
 		return (EXIT_FAILURE);
