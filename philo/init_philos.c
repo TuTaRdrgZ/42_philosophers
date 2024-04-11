@@ -17,7 +17,6 @@ static void	init_philo_args(t_philo *philo, t_args *args, int i)
 	philo->id = i + 1;
 	philo->args = args;
 	philo->alive = 1;
-	philo->first_meal = 0;
 	philo->eat_times = 0;
 	philo->holding_left = 0;
 	philo->holding_right = 0;
@@ -40,7 +39,7 @@ int	init_philos(t_args *args)
 			|| pthread_mutex_init(&philo->m_eat_times, NULL))
 		{
 			ft_memdel(philo);
-			print_error("Error: mutex init failed\n");
+			printf(RED "Error: mutex init failed\n" RST);
 			return (EXIT_FAILURE);
 		}
 		init_philo_args(&philo[i], args, i);

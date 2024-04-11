@@ -21,7 +21,7 @@ static int	check_args(t_args *args, char **argv, int argc)
 	{
 		if (is_digit_str(argv[i]) == -1)
 		{
-			print_error("Only positive numbers are accepted\n");
+			printf("Only positive numbers are accepted\n");
 			return (EXIT_FAILURE);
 		}
 		i++;
@@ -29,16 +29,28 @@ static int	check_args(t_args *args, char **argv, int argc)
 	args->philos_nb = ft_atoi(argv[1]);
 	if (args->philos_nb > 200)
 	{
-		print_error("You shouldn't test with more than 200 philos!!\n");
+		printf(RED "You shouldn't test with more than 200 philos!!\n" RST);
 		usleep(2500000);
 	}
-	args->time_to_die = ft_atoi(argv[2]);
-	args->time_to_eat = ft_atoi(argv[3]);
-	args->time_to_sleep = ft_atoi(argv[4]);
 	args->finish_eating = 0;
-    args->finish = 0;
+	args->finish = 0;
 	args->max_meals = 1;
 	args->death_flag = 0;
+	return (EXIT_SUCCESS);
+}
+
+int	init_mutex2(t_args *args)
+{
+	if (pthread_mutex_init(&args->m_stop, NULL) != 0)
+	{
+		printf(RED "Error: mutex init failed\n" RST);
+		return (EXIT_FAILURE);
+	}
+	if (pthread_mutex_init(&args->m_done, NULL) != 0)
+	{
+		printf(RED "Error: mutex init failed\n" RST);
+		return (EXIT_FAILURE);
+	}
 	return (EXIT_SUCCESS);
 }
 
@@ -46,36 +58,29 @@ int	init_mutex(t_args *args)
 {
 	if (pthread_mutex_init(&args->printer, NULL) != 0)
 	{
-		print_error("Error: mutex init failed\n");
+		printf(RED "Error: mutex init failed\n" RST);
 		return (EXIT_FAILURE);
 	}
 	if (pthread_mutex_init(&args->m_death, NULL) != 0)
 	{
-		print_error("Error: mutex init failed\n");
+		printf(RED "Error: mutex init failed\n" RST);
 		return (EXIT_FAILURE);
 	}
 	if (pthread_mutex_init(&args->m_eat, NULL) != 0)
 	{
-		print_error("Error: mutex init failed\n");
+		printf(RED "Error: mutex init failed\n" RST);
 		return (EXIT_FAILURE);
 	}
-	if (pthread_mutex_init(&args->m_stop, NULL) != 0)
-	{
-		print_error("Error: mutex init failed\n");
-		return (EXIT_FAILURE);
-	}
-	if (pthread_mutex_init(&args->m_done, NULL) != 0)
-	{
-		print_error("Error: mutex init failed\n");
-		return (EXIT_FAILURE);
-	}
-	return (EXIT_SUCCESS);
+	return (init_mutex2(args));
 }
 
 int	init_data(t_args *args, char **argv, int argc)
 {
 	if (check_args(args, argv, argc))
 		return (EXIT_FAILURE);
+	args->time_to_die = ft_atoi(argv[2]);
+	args->time_to_eat = ft_atoi(argv[3]);
+	args->time_to_sleep = ft_atoi(argv[4]);
 	if (init_mutex(args))
 		return (EXIT_FAILURE);
 	if (argc == 6)
@@ -87,6 +92,5 @@ int	init_data(t_args *args, char **argv, int argc)
 		return (EXIT_FAILURE);
 	if (argc < 6)
 		args->max_meals = -1;
-	args->initial_time = get_time_value();
 	return (EXIT_SUCCESS);
 }

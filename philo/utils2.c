@@ -66,17 +66,3 @@ time_t	get_timestampsuper(void)
 	gettimeofday(&t, NULL);
 	return ((t.tv_sec * 1000 + t.tv_usec / 1000) - start_time);
 }
-
-void	ft_msleep(int milliseconds)
-{
-	long	time;
-
-	time = get_time_value();
-	while (get_time_value() < time + milliseconds)
-		usleep(milliseconds);
-}
-
-void	print_error(char *str)
-{
-	printf(RED "%s" RST, str);
-}

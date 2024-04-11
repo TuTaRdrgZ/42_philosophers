@@ -22,10 +22,9 @@ static int	init_routine(t_args *args)
 		if (pthread_create(&(args->philo[i].philo_pid), NULL, &routine,
 				&(args->philo[i])) != 0)
 		{
-			print_error("Error: thread creation failed\n");
+			printf(RED "Error: thread creation failed\n" RST);
 			return (1);
 		}
-		// pthread_detach(args->philo[i].philo_pid);
 	}
 	return (0);
 }
@@ -43,13 +42,14 @@ int	main(int argc, char **argv)
 			{
 				supervisor(&args);
 			}
+            finish(&args);
 			return (EXIT_SUCCESS);
 		}
 		return (EXIT_FAILURE);
 	}
 	else
 	{
-		print_error("Wrong input:\n" G "Correct input: ./philo <N-philos> <die-time>\
+		printf(RED "Wrong input:\n" RST G "Correct input: ./philo <N-philos> <die-time>\
  <eat-time> <think-time> [<max-eat-count>]\n" RST);
 		return (EXIT_FAILURE);
 	}

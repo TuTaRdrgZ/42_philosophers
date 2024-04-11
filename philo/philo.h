@@ -42,8 +42,7 @@ typedef struct s_args
 	int					max_meals;
 	int					death_flag;
 	int					finish_eating;
-    int                 finish;
-	long long int		initial_time;
+	int					finish;
 	pthread_mutex_t		printer;
 	pthread_mutex_t		m_death;
 	pthread_mutex_t		m_done;
@@ -64,17 +63,14 @@ typedef struct s_philo
 	int					id;
 	int					eat_times;
 	int					alive;
-	long				first_meal;
 	long				last_meal;
 	t_args				*args;
 }						t_philo;
 
 void					finish(t_args *args);
 void					supervisor(void *p_data);
-void					print_error(char *str);
 void					print_state(char *action, t_philo *philo);
 void					*routine(void *p_data);
-void					ft_msleep(int milliseconds);
 int						is_digit_str(char *str);
 int						ft_strlen(char *str);
 void					ft_memdel(void *ptr);

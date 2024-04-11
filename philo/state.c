@@ -57,7 +57,7 @@ int	eat(t_philo *philo)
 
 int	philo_sleep_or_think(t_philo *philo, int flag)
 {
-	if (flag == 1) // sleep
+	if (flag == 1)
 	{
 		pthread_mutex_lock(&philo->args->m_death);
 		if (philo->args->death_flag)
@@ -70,7 +70,7 @@ int	philo_sleep_or_think(t_philo *philo, int flag)
 		ft_usleep(philo->args->time_to_sleep);
 		return (0);
 	}
-	else // think
+	else
 	{
 		pthread_mutex_lock(&philo->args->m_death);
 		if (philo->args->death_flag)
@@ -86,7 +86,7 @@ int	philo_sleep_or_think(t_philo *philo, int flag)
 
 void	handle_one_philo(t_philo *philo)
 {
-    pthread_mutex_lock(philo->left_fork);
+	pthread_mutex_lock(philo->left_fork);
 	print_state(W "has taken a fork" RST, philo);
 	ft_usleep(philo->args->time_to_die);
 	pthread_mutex_lock(&philo->args->printer);
@@ -95,8 +95,8 @@ void	handle_one_philo(t_philo *philo)
 	pthread_mutex_lock(&philo->args->m_stop);
 	philo->args->death_flag = 1;
 	pthread_mutex_unlock(&philo->args->m_stop);
-    pthread_mutex_unlock(philo->left_fork);
-    pthread_detach(philo->philo_pid);
+	pthread_mutex_unlock(philo->left_fork);
+    pthread_join(philo->philo_pid, NULL);
 }
 
 void	*routine(void *p_data)
@@ -107,10 +107,9 @@ void	*routine(void *p_data)
 	if (philo->args->philos_nb == 1)
 		return (handle_one_philo(philo), NULL);
 	if (philo->id % 2 == 0)
-        usleep(500);
-    else
-        usleep(1000);
-	while (!pthread_mutex_lock(&philo->args->m_death) && philo->args->death_flag == 0)
+		usleep(500);
+	while (!pthread_mutex_lock(&philo->args->m_death)
+		&& philo->args->death_flag == 0)
 	{
 		pthread_mutex_unlock(&philo->args->m_death);
 		if (eat(philo))
@@ -123,5 +122,7 @@ void	*routine(void *p_data)
 	pthread_mutex_unlock(&philo->args->m_death);
 	if (philo->holding_left)
 		pthread_mutex_unlock(philo->left_fork);
+	if (philo->holding_right)
+		pthread_mutex_unlock(&philo->right_fork);
 	return (NULL);
 }

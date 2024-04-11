@@ -18,7 +18,7 @@ void	finish(t_args *args)
 	int	i;
 
 	i = -1;
-    args->finish = 1;
+	args->finish = 1;
 	if (args->philos_nb == 1)
 		pthread_mutex_unlock((&args->philo[0])->left_fork);
 	while (++i < args->philos_nb)
@@ -89,8 +89,7 @@ void	supervisor(void *p_data)
 		{
 			if (complete_eating(args) == 1)
 			{
-				printf(G "All philosophers have eaten %d times\n" RST,
-					args->max_meals);
+				printf(G "All philosophers have eaten enough\n" RST);
 				return (finish(args));
 			}
 			if (is_dead(&args->philo[i]) == 1 && args->philos_nb != 1)
