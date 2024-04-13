@@ -6,7 +6,7 @@
 /*   By: bautrodr <bautrodr@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/28 12:49:51 by bautrodr          #+#    #+#             */
-/*   Updated: 2024/04/10 14:48:44 by bautrodr         ###   ########.fr       */
+/*   Updated: 2024/04/13 10:32:22 by bautrodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,7 @@ int	init_data(t_args *args, char **argv, int argc)
 	args->time_to_die = ft_atoi(argv[2]);
 	args->time_to_eat = ft_atoi(argv[3]);
 	args->time_to_sleep = ft_atoi(argv[4]);
+	args->all_ready = 0;
 	if (init_mutex(args))
 		return (EXIT_FAILURE);
 	if (argc == 6)

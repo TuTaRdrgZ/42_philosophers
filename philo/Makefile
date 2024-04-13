@@ -6,7 +6,7 @@
 #    By: bautrodr <bautrodr@student.42barcel>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/12/28 12:35:41 by bautrodr          #+#    #+#              #
-#    Updated: 2024/03/25 09:47:26 by bautrodr         ###   ########.fr        #
+#    Updated: 2024/04/13 10:42:59 by bautrodr         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,6 +26,7 @@ SRCS = main.c \
        state.c \
        init_philos.c \
 	   print_state.c \
+	   wait_all_threads.c \
 	   supervisor.c
 
 OBJS = $(SRCS:.c=.o)

@@ -6,7 +6,7 @@
 /*   By: bautrodr <bautrodr@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/28 11:38:05 by bautrodr          #+#    #+#             */
-/*   Updated: 2024/04/10 14:47:26 by bautrodr         ###   ########.fr       */
+/*   Updated: 2024/04/13 10:42:44 by bautrodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ typedef struct s_args
 	int					death_flag;
 	int					finish_eating;
 	int					finish;
+	int					all_ready;
 	pthread_mutex_t		printer;
 	pthread_mutex_t		m_death;
 	pthread_mutex_t		m_done;
@@ -67,6 +68,7 @@ typedef struct s_philo
 	t_args				*args;
 }						t_philo;
 
+void					wait_all_threads(t_args *args);
 void					finish(t_args *args);
 void					supervisor(void *p_data);
 void					print_state(char *action, t_philo *philo);

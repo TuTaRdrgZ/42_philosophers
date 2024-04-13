@@ -6,7 +6,7 @@
 /*   By: bautrodr <bautrodr@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/28 12:09:25 by bautrodr          #+#    #+#             */
-/*   Updated: 2024/04/10 14:47:49 by bautrodr         ###   ########.fr       */
+/*   Updated: 2024/04/13 10:34:09 by bautrodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,9 @@ static int	init_routine(t_args *args)
 			return (1);
 		}
 	}
+	pthread_mutex_lock(&(args->m_stop));
+	args->all_ready = 1;
+	pthread_mutex_unlock(&(args->m_stop));
 	return (0);
 }
 

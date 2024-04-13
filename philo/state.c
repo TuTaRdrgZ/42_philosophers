@@ -6,7 +6,7 @@
 /*   By: bautrodr <bautrodr@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 14:48:27 by bautrodr          #+#    #+#             */
-/*   Updated: 2024/04/10 14:48:29 by bautrodr         ###   ########.fr       */
+/*   Updated: 2024/04/13 10:42:45 by bautrodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,15 +99,18 @@ void	handle_one_philo(t_philo *philo)
     pthread_join(philo->philo_pid, NULL);
 }
 
+
+
 void	*routine(void *p_data)
 {
 	t_philo	*philo;
 
 	philo = (t_philo *)p_data;
+	wait_all_threads(philo->args);
 	if (philo->args->philos_nb == 1)
 		return (handle_one_philo(philo), NULL);
 	if (philo->id % 2 == 0)
-		usleep(500);
+		ft_usleep(philo->args->time_to_eat / 2);
 	while (!pthread_mutex_lock(&philo->args->m_death)
 		&& philo->args->death_flag == 0)
 	{
