@@ -28,7 +28,7 @@ static int	init_routine(t_args *args)
 	}
 	pthread_mutex_lock(&(args->m_stop));
 	args->all_ready = 1;
-	pthread_mutex_unlock(&(args->m_stop));
+	pthread_mutex_unlock(&(args->m_stop)); 
 	return (0);
 }
 

@@ -19,8 +19,6 @@ void	finish(t_args *args)
 
 	i = -1;
 	args->finish = 1;
-	if (args->philos_nb == 1)
-		pthread_mutex_unlock((&args->philo[0])->left_fork);
 	while (++i < args->philos_nb)
 		pthread_join(args->philo[i].philo_pid, NULL);
 	i = -1;
@@ -41,7 +39,7 @@ int	is_dead(t_philo *philo)
 	long int	time;
 
 	pthread_mutex_lock(&philo->args->m_eat);
-	time = get_timestampsuper() - philo->last_meal;
+	time = get_timestamp() - philo->last_meal;
 	if (time >= philo->args->time_to_die)
 	{
 		pthread_mutex_unlock(&philo->args->m_eat);
@@ -81,7 +79,7 @@ void	supervisor(void *p_data)
 	t_args	*args;
 
 	args = p_data;
-	get_timestampsuper();
+    ft_usleep(100);
 	while (check_if_stop(args) == 0)
 	{
 		i = -1;
@@ -97,9 +95,10 @@ void	supervisor(void *p_data)
 				pthread_mutex_lock(&args->m_death);
 				args->death_flag = 1;
 				pthread_mutex_unlock(&args->m_death);
-				printf(RED "%ld %d died\n" RST, get_timestampsuper(), i + 1);
+				printf(RED "%ld %d died\n" RST, get_timestamp(), i + 1);
 				return (finish(args));
 			}
 		}
+        usleep(30);
 	}
 }
