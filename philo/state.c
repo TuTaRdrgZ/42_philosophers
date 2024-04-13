@@ -6,7 +6,7 @@
 /*   By: bautrodr <bautrodr@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 14:48:27 by bautrodr          #+#    #+#             */
-/*   Updated: 2024/04/13 10:42:45 by bautrodr         ###   ########.fr       */
+/*   Updated: 2024/04/14 01:16:54 by bautrodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static void	many_philos(t_philo *philo)
 	print_state(B "is eating" RST, philo);
 	pthread_mutex_lock(&philo->args->m_eat);
 	philo->eat_times++;
-	philo->last_meal = get_timestamp();
+	philo->last_meal = get_timestamp(philo->args);
 	pthread_mutex_unlock(&philo->args->m_eat);
 	ft_usleep(philo->args->time_to_eat);
 	pthread_mutex_unlock(&philo->right_fork);
@@ -90,7 +90,7 @@ void	handle_one_philo(t_philo *philo)
 	print_state(W "has taken a fork" RST, philo);
 	ft_usleep(philo->args->time_to_die);
 	pthread_mutex_lock(&philo->args->printer);
-	printf(RED "%ld %d died\n" RST, get_timestamp(), philo->id);
+	printf(RED "%ld %d died\n" RST, get_timestamp(philo->args), philo->id);
 	pthread_mutex_unlock(&philo->args->printer);
 	pthread_mutex_lock(&philo->args->m_stop);
 	philo->args->death_flag = 1;
@@ -111,8 +111,8 @@ void	*routine(void *p_data)
 		ft_usleep(philo->args->time_to_eat / 2);
     else
         ft_usleep(philo->args->time_to_eat * 0.9);
-    pthread_mutex_lock(&philo->args->m_death);
-	while (!philo->args->death_flag)
+	while (!pthread_mutex_lock(&philo->args->m_death) && 
+			!philo->args->death_flag)
 	{
 		pthread_mutex_unlock(&philo->args->m_death);
 		if (eat(philo))
@@ -122,6 +122,7 @@ void	*routine(void *p_data)
 		if (philo_sleep_or_think(philo, 2))
 			break ;
 	}
+	pthread_mutex_unlock(&philo->args->m_death);
 	if (philo->holding_left)
 		pthread_mutex_unlock(philo->left_fork);
 	if (philo->holding_right)

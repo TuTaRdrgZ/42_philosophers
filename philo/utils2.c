@@ -6,7 +6,7 @@
 /*   By: bautrodr <bautrodr@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 10:12:37 by bautrodr          #+#    #+#             */
-/*   Updated: 2024/04/10 14:45:29 by bautrodr         ###   ########.fr       */
+/*   Updated: 2024/04/14 00:57:01 by bautrodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,17 +39,19 @@ void	ft_usleep(int ms)
 		usleep(100);
 }
 
-time_t	get_timestamp(void)
+time_t	get_timestamp(t_args *args)
 {
 	static time_t	start_time = 0;
 	struct timeval	t;
 
+	pthread_mutex_lock(&args->m_stop);
 	if (start_time == 0)
 	{
 		gettimeofday(&t, NULL);
 		start_time = ((t.tv_sec * 1000) + t.tv_usec / 1000);
 	}
 	gettimeofday(&t, NULL);
+	pthread_mutex_unlock(&args->m_stop);
 	return ((t.tv_sec * 1000 + t.tv_usec / 1000) - start_time);
 }
 

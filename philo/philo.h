@@ -6,7 +6,7 @@
 /*   By: bautrodr <bautrodr@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/28 11:38:05 by bautrodr          #+#    #+#             */
-/*   Updated: 2024/04/13 10:42:44 by bautrodr         ###   ########.fr       */
+/*   Updated: 2024/04/14 00:53:25 by bautrodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ void					ft_memdel(void *ptr);
 void					free_philos(t_args args);
 long					ft_atoi(const char *str);
 long					get_time_value(void);
-time_t					get_timestamp(void);
+time_t					get_timestamp(t_args *args);
 time_t					get_timestampsuper(void);
 void					ft_usleep(int ms);
 int						init_data(t_args *args, char **argv, int argc);

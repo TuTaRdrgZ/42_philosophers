@@ -6,7 +6,7 @@
 /*   By: bautrodr <bautrodr@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 14:45:58 by bautrodr          #+#    #+#             */
-/*   Updated: 2024/04/10 14:46:01 by bautrodr         ###   ########.fr       */
+/*   Updated: 2024/04/14 00:54:59 by bautrodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	print_colors(t_philo *philo, char *action)
 {
 	if (!philo->args->death_flag && !philo->args->finish)
 	{
-		printf(Y "%ld " RST, get_timestamp());
+		printf(Y "%ld " RST, get_timestamp(philo->args));
 		printf(M "%d " RST, philo->id);
 		printf(C "%s\n" RST, action);
 	}

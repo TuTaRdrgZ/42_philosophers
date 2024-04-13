@@ -6,7 +6,7 @@
 #    By: bautrodr <bautrodr@student.42barcel>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/12/28 12:35:41 by bautrodr          #+#    #+#              #
-#    Updated: 2024/04/13 10:42:59 by bautrodr         ###   ########.fr        #
+#    Updated: 2024/04/14 01:12:26 by bautrodr         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,7 +33,7 @@ OBJS = $(SRCS:.c=.o)
 
 CC = gcc
 
-CFLAGS = -Wextra -Werror -pthread# -g -fsanitize=thread
+CFLAGS = -Wextra -Werror -pthread #-g -fsanitize=thread
 
 all: $(NAME)
 

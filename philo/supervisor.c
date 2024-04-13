@@ -6,7 +6,7 @@
 /*   By: bautrodr <bautrodr@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 09:01:09 by bautrodr          #+#    #+#             */
-/*   Updated: 2024/04/10 14:45:41 by bautrodr         ###   ########.fr       */
+/*   Updated: 2024/04/14 01:15:27 by bautrodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ int	is_dead(t_philo *philo)
 	long int	time;
 
 	pthread_mutex_lock(&philo->args->m_eat);
-	time = get_timestamp() - philo->last_meal;
+		time = get_timestamp(philo->args) - philo->last_meal;
 	if (time >= philo->args->time_to_die)
 	{
 		pthread_mutex_unlock(&philo->args->m_eat);
@@ -95,10 +95,9 @@ void	supervisor(void *p_data)
 				pthread_mutex_lock(&args->m_death);
 				args->death_flag = 1;
 				pthread_mutex_unlock(&args->m_death);
-				printf(RED "%ld %d died\n" RST, get_timestamp(), i + 1);
+				printf(RED "%ld %d died\n" RST, get_timestamp(args), i + 1);
 				return (finish(args));
 			}
 		}
-        usleep(30);
 	}
 }
