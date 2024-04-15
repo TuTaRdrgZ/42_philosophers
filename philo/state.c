@@ -96,7 +96,7 @@ void	handle_one_philo(t_philo *philo)
 	philo->args->death_flag = 1;
 	pthread_mutex_unlock(&philo->args->m_stop);
 	pthread_mutex_unlock(philo->left_fork);
-    pthread_join(philo->philo_pid, NULL);
+	pthread_join(philo->philo_pid, NULL);
 }
 
 void	*routine(void *p_data)
@@ -109,17 +109,15 @@ void	*routine(void *p_data)
 		return (handle_one_philo(philo), NULL);
 	if (philo->id % 2 == 0)
 		ft_usleep(philo->args->time_to_eat / 2);
-    else
-        ft_usleep(philo->args->time_to_eat * 0.9);
-	while (!pthread_mutex_lock(&philo->args->m_death) && 
-			!philo->args->death_flag)
+	else
+		ft_usleep(philo->args->time_to_eat * 0.9);
+	while (!pthread_mutex_lock(&philo->args->m_death)
+		&& !philo->args->death_flag)
 	{
 		pthread_mutex_unlock(&philo->args->m_death);
 		if (eat(philo))
 			break ;
-		if (philo_sleep_or_think(philo, 1))
-			break ;
-		if (philo_sleep_or_think(philo, 2))
+		if (philo_sleep_or_think(philo, 1) || philo_sleep_or_think(philo, 2))
 			break ;
 	}
 	pthread_mutex_unlock(&philo->args->m_death);

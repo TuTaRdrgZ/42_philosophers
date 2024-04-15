@@ -12,6 +12,18 @@
 
 #include "philo.h"
 
+static void	init_data2(t_args *args, char **argv)
+{
+	args->finish_eating = 0;
+	args->finish = 0;
+	args->max_meals = 1;
+	args->death_flag = 0;
+	args->time_to_die = ft_atoi(argv[2]);
+	args->time_to_eat = ft_atoi(argv[3]);
+	args->time_to_sleep = ft_atoi(argv[4]);
+	args->all_ready = 0;
+}
+
 static int	check_args(t_args *args, char **argv, int argc)
 {
 	int	i;
@@ -21,7 +33,12 @@ static int	check_args(t_args *args, char **argv, int argc)
 	{
 		if (is_digit_str(argv[i]) == -1)
 		{
-			printf("Only positive numbers are accepted\n");
+			printf(RED "Only positive numbers are accepted\n" RST);
+			return (EXIT_FAILURE);
+		}
+		if (ft_strlen(argv[i]) > 10)
+		{
+			printf(RED "Number too big\n" RST);
 			return (EXIT_FAILURE);
 		}
 		i++;
@@ -32,10 +49,6 @@ static int	check_args(t_args *args, char **argv, int argc)
 		printf(RED "You shouldn't test with more than 200 philos!!\n" RST);
 		usleep(2500000);
 	}
-	args->finish_eating = 0;
-	args->finish = 0;
-	args->max_meals = 1;
-	args->death_flag = 0;
 	return (EXIT_SUCCESS);
 }
 
@@ -78,17 +91,17 @@ int	init_data(t_args *args, char **argv, int argc)
 {
 	if (check_args(args, argv, argc))
 		return (EXIT_FAILURE);
-	args->time_to_die = ft_atoi(argv[2]);
-	args->time_to_eat = ft_atoi(argv[3]);
-	args->time_to_sleep = ft_atoi(argv[4]);
-	args->all_ready = 0;
+	init_data2(args, argv);
 	if (init_mutex(args))
 		return (EXIT_FAILURE);
 	if (argc == 6)
 		args->max_meals = ft_atoi(argv[5]);
 	if (args->philos_nb < 1 || args->time_to_die < 0 || args->time_to_eat < 0
 		|| args->time_to_sleep < 0)
+	{
+		printf(RED "Wrong arguments\n" RST);
 		return (EXIT_FAILURE);
+	}
 	if (args->max_meals <= 0)
 		return (EXIT_FAILURE);
 	if (argc < 6)

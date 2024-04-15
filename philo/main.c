@@ -28,7 +28,7 @@ static int	init_routine(t_args *args)
 	}
 	pthread_mutex_lock(&(args->m_stop));
 	args->all_ready = 1;
-	pthread_mutex_unlock(&(args->m_stop)); 
+	pthread_mutex_unlock(&(args->m_stop));
 	return (0);
 }
 
@@ -45,8 +45,8 @@ int	main(int argc, char **argv)
 			{
 				supervisor(&args);
 			}
-            if (args.philos_nb == 1)
-                finish(&args);
+			if (args.philos_nb == 1)
+				finish(&args);
 			return (EXIT_SUCCESS);
 		}
 		return (EXIT_FAILURE);

@@ -35,7 +35,6 @@ int	init_philos(t_args *args)
 	while (i < args->philos_nb)
 	{
 		if (pthread_mutex_init(&(philo[i].right_fork), NULL)
-			|| pthread_mutex_init(&philo->m_last_meal, NULL)
 			|| pthread_mutex_init(&philo->m_eat_times, NULL))
 		{
 			ft_memdel(philo);
